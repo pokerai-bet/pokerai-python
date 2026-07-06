@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "pokerai-bet"
+version = "0.1.0"
+description = "Official Python client for the Pokerai API — solver-grade GTO strategy for 6-max No-Limit Hold'em. Auto-generated from the OpenAPI spec."
+authors = ["Pokerai API <noreply@pokerai.bet>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["poker", "gto", "solver", "holdem", "nlhe", "api", "pokerai"]
+packages = [
+    { include = "pokerai" },
+]
+include = ["pokerai/py.typed"]
+
+[tool.poetry.urls]
+Homepage = "https://pokerai.bet"
+Documentation = "https://pokerai.bet/docs.en"
+"API Reference" = "https://pokerai.bet/reference"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+httpx = ">=0.23.1,<0.29.0"
+attrs = ">=22.2.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]
