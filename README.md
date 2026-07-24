@@ -56,6 +56,35 @@ Tags: `lookup` (preflop + flop presolved), `solver` (real-time turn/river), `ran
 Request/response models live in `pokerai.models`. Auth is your API key via
 `AuthenticatedClient(token=...)` (sent as `Authorization: Bearer`).
 
+## Real-time solver lifecycle
+
+Real-time solves hold a shared solver slot while you poll/query the tree. Use the helper below so the
+slot is released in `finally` after you finish querying it. The helper retries temporary `429 busy`
+responses using `retry_after_ms` / `Retry-After`, but it does not retry quota errors.
+
+```python
+from pokerai import AuthenticatedClient, with_solver
+from pokerai.api.solver import solver_tree
+from pokerai.models import SolverScheduleRequest, SolverScheduleRequestHero, SolverTreeBody
+
+client = AuthenticatedClient(base_url="https://pokerai.bet", token="gto_your_key")
+
+body = SolverScheduleRequest(
+    board="2c2d2h9s",
+    oop_range="AA,KK",
+    ip_range="QQ,JJ",
+    pot=20,
+    effective_stack=90,
+    hero=SolverScheduleRequestHero.OOP,
+)
+
+def query_tree(scheduled):
+    # Query every tree/node/runout you still need for this solve inside this callback.
+    return solver_tree.sync(client=client, body=SolverTreeBody(solve=scheduled.solve))
+
+tree = with_solver(client=client, body=body, use=query_tree)
+```
+
 ## Not into constructing model objects?
 
 This client is fully typed but verbose (it's generated). If you'd rather drive the API from an LLM
