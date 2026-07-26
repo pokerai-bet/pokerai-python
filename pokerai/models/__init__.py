@@ -1,4 +1,4 @@
-""" Contains all the data models used in inputs/outputs """
+"""Contains all the data models used in inputs/outputs"""
 
 from .error import Error
 from .evs_request import EvsRequest
@@ -45,9 +45,13 @@ from .range_response import RangeResponse
 from .solver_node_body import SolverNodeBody
 from .solver_node_response_200_type_1 import SolverNodeResponse200Type1
 from .solver_node_response_200_type_1_node_status import SolverNodeResponse200Type1NodeStatus
+from .solver_release_body import SolverReleaseBody
+from .solver_release_response_200 import SolverReleaseResponse200
 from .solver_schedule_request import SolverScheduleRequest
 from .solver_schedule_request_bet_sizes import SolverScheduleRequestBetSizes
+from .solver_schedule_request_donk_sizes import SolverScheduleRequestDonkSizes
 from .solver_schedule_request_hero import SolverScheduleRequestHero
+from .solver_schedule_request_raise_sizes import SolverScheduleRequestRaiseSizes
 from .solver_schedule_response import SolverScheduleResponse
 from .solver_schedule_response_status import SolverScheduleResponseStatus
 from .solver_tree_body import SolverTreeBody
@@ -107,9 +111,13 @@ __all__ = (
     "SolverNodeBody",
     "SolverNodeResponse200Type1",
     "SolverNodeResponse200Type1NodeStatus",
+    "SolverReleaseBody",
+    "SolverReleaseResponse200",
     "SolverScheduleRequest",
     "SolverScheduleRequestBetSizes",
+    "SolverScheduleRequestDonkSizes",
     "SolverScheduleRequestHero",
+    "SolverScheduleRequestRaiseSizes",
     "SolverScheduleResponse",
     "SolverScheduleResponseStatus",
     "SolverTreeBody",

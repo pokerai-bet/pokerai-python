@@ -6,29 +6,23 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="SolverScheduleRequestBetSizes")
+T = TypeVar("T", bound="SolverScheduleRequestDonkSizes")
 
 
 @_attrs_define
-class SolverScheduleRequestBetSizes:
-    """optional per-street opening bet sizes in pot %; flop defaults to 50%
+class SolverScheduleRequestDonkSizes:
+    """optional OOP donk-lead sizes in pot %; turn defaults to 67%, river defaults to 100%
 
     Attributes:
-        flop (Union[Unset, list[int]]):
         turn (Union[Unset, list[int]]):
         river (Union[Unset, list[int]]):
     """
 
-    flop: Union[Unset, list[int]] = UNSET
     turn: Union[Unset, list[int]] = UNSET
     river: Union[Unset, list[int]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        flop: Union[Unset, list[int]] = UNSET
-        if not isinstance(self.flop, Unset):
-            flop = self.flop
-
         turn: Union[Unset, list[int]] = UNSET
         if not isinstance(self.turn, Unset):
             turn = self.turn
@@ -40,8 +34,6 @@ class SolverScheduleRequestBetSizes:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if flop is not UNSET:
-            field_dict["flop"] = flop
         if turn is not UNSET:
             field_dict["turn"] = turn
         if river is not UNSET:
@@ -52,20 +44,17 @@ class SolverScheduleRequestBetSizes:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        flop = cast(list[int], d.pop("flop", UNSET))
-
         turn = cast(list[int], d.pop("turn", UNSET))
 
         river = cast(list[int], d.pop("river", UNSET))
 
-        solver_schedule_request_bet_sizes = cls(
-            flop=flop,
+        solver_schedule_request_donk_sizes = cls(
             turn=turn,
             river=river,
         )
 
-        solver_schedule_request_bet_sizes.additional_properties = d
-        return solver_schedule_request_bet_sizes
+        solver_schedule_request_donk_sizes.additional_properties = d
+        return solver_schedule_request_donk_sizes
 
     @property
     def additional_keys(self) -> list[str]:

@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SolverScheduleResponseStatus(str, Enum):
     BUSY = "busy"
     COMPUTING = "computing"

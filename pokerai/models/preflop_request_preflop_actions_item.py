@@ -1,47 +1,33 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 from ..models.position import Position
 from ..models.preflop_request_preflop_actions_item_action import PreflopRequestPreflopActionsItemAction
 from ..types import UNSET, Unset
 
-
-
-
-
-
 T = TypeVar("T", bound="PreflopRequestPreflopActionsItem")
-
 
 
 @_attrs_define
 class PreflopRequestPreflopActionsItem:
-    """ 
-        Attributes:
-            position (Position):
-            action (PreflopRequestPreflopActionsItemAction):
-            amount (float | Unset): increment newly committed this action in BB (required for non-fold actions); omitted/0
-                for fold
-            allin (bool | Unset): optional; mark a short all-in (raise/call below the min-raise). when true, the min-raise
-                check is skipped
-     """
+    """
+    Attributes:
+        position (Position):
+        action (PreflopRequestPreflopActionsItemAction):
+        amount (Union[Unset, float]): increment newly committed this action in BB (required for non-fold actions);
+            omitted/0 for fold
+        allin (Union[Unset, bool]): optional; mark a short all-in (raise/call below the min-raise). when true, the min-
+            raise check is skipped
+    """
 
     position: Position
     action: PreflopRequestPreflopActionsItemAction
-    amount: float | Unset = UNSET
-    allin: bool | Unset = UNSET
+    amount: Union[Unset, float] = UNSET
+    allin: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         position = self.position.value
@@ -52,13 +38,14 @@ class PreflopRequestPreflopActionsItem:
 
         allin = self.allin
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "position": position,
-            "action": action,
-        })
+        field_dict.update(
+            {
+                "position": position,
+                "action": action,
+            }
+        )
         if amount is not UNSET:
             field_dict["amount"] = amount
         if allin is not UNSET:
@@ -66,20 +53,12 @@ class PreflopRequestPreflopActionsItem:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         position = Position(d.pop("position"))
 
-
-
-
         action = PreflopRequestPreflopActionsItemAction(d.pop("action"))
-
-
-
 
         amount = d.pop("amount", UNSET)
 
@@ -91,7 +70,6 @@ class PreflopRequestPreflopActionsItem:
             amount=amount,
             allin=allin,
         )
-
 
         preflop_request_preflop_actions_item.additional_properties = d
         return preflop_request_preflop_actions_item

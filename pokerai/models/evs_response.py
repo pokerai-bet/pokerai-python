@@ -1,55 +1,41 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-
 if TYPE_CHECKING:
-  from ..models.evs_response_evs import EvsResponseEvs
-
-
-
+    from ..models.evs_response_evs import EvsResponseEvs
 
 
 T = TypeVar("T", bound="EvsResponse")
 
 
-
 @_attrs_define
 class EvsResponse:
-    """ Per-hand, per-action EVs at the node; each hand's EV array aligns with actions.
+    """Per-hand, per-action EVs at the node; each hand's EV array aligns with actions.
 
-        Attributes:
-            node_id (str | Unset):
-            task_id (str | Unset):
-            player (int | Unset):
-            round_ (str | Unset):  Example: FLOP.
-            actions (list[str] | Unset):  Example: ['CHECK', 'BET 4.000000', 'BET 97.000000'].
-            evs (EvsResponseEvs | Unset): hand -> per-action EV array (bb); a single array when hand is given Example:
-                {'2c2d': [-0.826359, -0.792223, -1.643411]}.
-     """
+    Attributes:
+        node_id (Union[Unset, str]):
+        task_id (Union[Unset, str]):
+        player (Union[Unset, int]):
+        round_ (Union[Unset, str]):  Example: FLOP.
+        actions (Union[Unset, list[str]]):  Example: ['CHECK', 'BET 4.000000', 'BET 97.000000'].
+        evs (Union[Unset, EvsResponseEvs]): hand -> per-action EV array (bb); a single array when hand is given Example:
+            {'2c2d': [-0.826359, -0.792223, -1.643411]}.
+    """
 
-    node_id: str | Unset = UNSET
-    task_id: str | Unset = UNSET
-    player: int | Unset = UNSET
-    round_: str | Unset = UNSET
-    actions: list[str] | Unset = UNSET
-    evs: EvsResponseEvs | Unset = UNSET
+    node_id: Union[Unset, str] = UNSET
+    task_id: Union[Unset, str] = UNSET
+    player: Union[Unset, int] = UNSET
+    round_: Union[Unset, str] = UNSET
+    actions: Union[Unset, list[str]] = UNSET
+    evs: Union[Unset, "EvsResponseEvs"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.evs_response_evs import EvsResponseEvs
         node_id = self.node_id
 
         task_id = self.task_id
@@ -58,21 +44,17 @@ class EvsResponse:
 
         round_ = self.round_
 
-        actions: list[str] | Unset = UNSET
+        actions: Union[Unset, list[str]] = UNSET
         if not isinstance(self.actions, Unset):
             actions = self.actions
 
-
-
-        evs: dict[str, Any] | Unset = UNSET
+        evs: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.evs, Unset):
             evs = self.evs.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if node_id is not UNSET:
             field_dict["node_id"] = node_id
         if task_id is not UNSET:
@@ -88,11 +70,10 @@ class EvsResponse:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.evs_response_evs import EvsResponseEvs
+
         d = dict(src_dict)
         node_id = d.pop("node_id", UNSET)
 
@@ -104,16 +85,12 @@ class EvsResponse:
 
         actions = cast(list[str], d.pop("actions", UNSET))
 
-
         _evs = d.pop("evs", UNSET)
-        evs: EvsResponseEvs | Unset
-        if isinstance(_evs,  Unset):
+        evs: Union[Unset, EvsResponseEvs]
+        if isinstance(_evs, Unset):
             evs = UNSET
         else:
             evs = EvsResponseEvs.from_dict(_evs)
-
-
-
 
         evs_response = cls(
             node_id=node_id,
@@ -123,7 +100,6 @@ class EvsResponse:
             actions=actions,
             evs=evs,
         )
-
 
         evs_response.additional_properties = d
         return evs_response

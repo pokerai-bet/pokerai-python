@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Position(str, Enum):
     BB = "BB"
     BTN = "BTN"

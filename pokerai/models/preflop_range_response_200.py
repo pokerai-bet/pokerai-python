@@ -1,61 +1,44 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-
 if TYPE_CHECKING:
-  from ..models.preflop_range_response_200_quota import PreflopRangeResponse200Quota
-  from ..models.preflop_range_response_200_range import PreflopRangeResponse200Range
-
-
-
+    from ..models.preflop_range_response_200_quota import PreflopRangeResponse200Quota
+    from ..models.preflop_range_response_200_range import PreflopRangeResponse200Range
 
 
 T = TypeVar("T", bound="PreflopRangeResponse200")
 
 
-
 @_attrs_define
 class PreflopRangeResponse200:
-    """ 
-        Attributes:
-            range_ (PreflopRangeResponse200Range | Unset): hand type (AA / AKs / AKo) -> {fold, call, raise}; 169 entries,
-                each summing to ~1
-            quota (PreflopRangeResponse200Quota | Unset):
-     """
+    """
+    Attributes:
+        range_ (Union[Unset, PreflopRangeResponse200Range]): hand type (AA / AKs / AKo) -> {fold, call, raise}; 169
+            entries, each summing to ~1
+        quota (Union[Unset, PreflopRangeResponse200Quota]):
+    """
 
-    range_: PreflopRangeResponse200Range | Unset = UNSET
-    quota: PreflopRangeResponse200Quota | Unset = UNSET
+    range_: Union[Unset, "PreflopRangeResponse200Range"] = UNSET
+    quota: Union[Unset, "PreflopRangeResponse200Quota"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.preflop_range_response_200_quota import PreflopRangeResponse200Quota
-        from ..models.preflop_range_response_200_range import PreflopRangeResponse200Range
-        range_: dict[str, Any] | Unset = UNSET
+        range_: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.range_, Unset):
             range_ = self.range_.to_dict()
 
-        quota: dict[str, Any] | Unset = UNSET
+        quota: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.quota, Unset):
             quota = self.quota.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if range_ is not UNSET:
             field_dict["range"] = range_
         if quota is not UNSET:
@@ -63,38 +46,30 @@ class PreflopRangeResponse200:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.preflop_range_response_200_quota import PreflopRangeResponse200Quota
         from ..models.preflop_range_response_200_range import PreflopRangeResponse200Range
+
         d = dict(src_dict)
         _range_ = d.pop("range", UNSET)
-        range_: PreflopRangeResponse200Range | Unset
-        if isinstance(_range_,  Unset):
+        range_: Union[Unset, PreflopRangeResponse200Range]
+        if isinstance(_range_, Unset):
             range_ = UNSET
         else:
             range_ = PreflopRangeResponse200Range.from_dict(_range_)
 
-
-
-
         _quota = d.pop("quota", UNSET)
-        quota: PreflopRangeResponse200Quota | Unset
-        if isinstance(_quota,  Unset):
+        quota: Union[Unset, PreflopRangeResponse200Quota]
+        if isinstance(_quota, Unset):
             quota = UNSET
         else:
             quota = PreflopRangeResponse200Quota.from_dict(_quota)
-
-
-
 
         preflop_range_response_200 = cls(
             range_=range_,
             quota=quota,
         )
-
 
         preflop_range_response_200.additional_properties = d
         return preflop_range_response_200
