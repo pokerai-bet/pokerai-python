@@ -1,80 +1,67 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
-
 if TYPE_CHECKING:
-  from ..models.quota import Quota
-
-
-
+    from ..models.quota import Quota
 
 
 T = TypeVar("T", bound="ProjectedRangeResponse")
 
 
-
 @_attrs_define
 class ProjectedRangeResponse:
-    """ Same fields as RangeResponse, plus pot_type echoed from the request (17 fields total).
+    """Same fields as RangeResponse, plus pot_type echoed from the request (17 fields total).
 
-        Attributes:
-            range_oop_new (str | Unset): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first); weight
-                0..1, default 1. Example: AA:1,KK,AKs:0.5,72o:0.1.
-            range_ip_new (str | Unset): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first); weight
-                0..1, default 1. Example: AA:1,KK,AKs:0.5,72o:0.1.
-            range_oop_new_raw (str | Unset):
-            range_ip_new_raw (str | Unset):
-            range_oop_new_raw_before_normalization (str | Unset):
-            range_ip_new_raw_before_normalization (str | Unset):
-            hand_ranks_oop (str | Unset): OOP combos by made-hand strength: 'combo:rank,...' (lower rank = stronger), sorted
-                by rank ascending. Equal-rank tie order is NOT guaranteed stable across endpoints/runs — do not depend on it.
-            hand_ranks_ip (str | Unset): IP analog of hand_ranks_oop.
-            hand_bottom_ranks_oop (str | Unset): The weakest bluff_combos_ratio fraction of hand_ranks_oop (bluff
-                candidates), same format.
-            hand_bottom_ranks_ip (str | Unset): IP analog of hand_bottom_ranks_oop.
-            node_id (str | Unset):
-            board (list[str] | Unset): community cards returned as an array Example: ['2c', '2h', '2s'].
-            path_length (int | Unset):
-            bluff_discount_ratio (float | Unset):
-            bluff_combos_ratio (float | Unset):
-            quota (Quota | Unset):
-            pot_type (str | Unset):
-     """
+    Attributes:
+        range_oop_new (Union[Unset, str]): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first);
+            weight 0..1, default 1. Example: AA:1,KK,AKs:0.5,72o:0.1.
+        range_ip_new (Union[Unset, str]): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first);
+            weight 0..1, default 1. Example: AA:1,KK,AKs:0.5,72o:0.1.
+        range_oop_new_raw (Union[Unset, str]):
+        range_ip_new_raw (Union[Unset, str]):
+        range_oop_new_raw_before_normalization (Union[Unset, str]):
+        range_ip_new_raw_before_normalization (Union[Unset, str]):
+        hand_ranks_oop (Union[Unset, str]): OOP combos by made-hand strength: 'combo:rank,...' (lower rank = stronger),
+            sorted by rank ascending. Equal-rank tie order is NOT guaranteed stable across endpoints/runs — do not depend on
+            it.
+        hand_ranks_ip (Union[Unset, str]): IP analog of hand_ranks_oop.
+        hand_bottom_ranks_oop (Union[Unset, str]): The weakest bluff_combos_ratio fraction of hand_ranks_oop (bluff
+            candidates), same format.
+        hand_bottom_ranks_ip (Union[Unset, str]): IP analog of hand_bottom_ranks_oop.
+        node_id (Union[Unset, str]):
+        board (Union[Unset, list[str]]): community cards returned as an array Example: ['2c', '2h', '2s'].
+        path_length (Union[Unset, int]):
+        bluff_discount_ratio (Union[Unset, float]):
+        bluff_combos_ratio (Union[Unset, float]):
+        quota (Union[Unset, Quota]):
+        pot_type (Union[Unset, str]):
+    """
 
-    range_oop_new: str | Unset = UNSET
-    range_ip_new: str | Unset = UNSET
-    range_oop_new_raw: str | Unset = UNSET
-    range_ip_new_raw: str | Unset = UNSET
-    range_oop_new_raw_before_normalization: str | Unset = UNSET
-    range_ip_new_raw_before_normalization: str | Unset = UNSET
-    hand_ranks_oop: str | Unset = UNSET
-    hand_ranks_ip: str | Unset = UNSET
-    hand_bottom_ranks_oop: str | Unset = UNSET
-    hand_bottom_ranks_ip: str | Unset = UNSET
-    node_id: str | Unset = UNSET
-    board: list[str] | Unset = UNSET
-    path_length: int | Unset = UNSET
-    bluff_discount_ratio: float | Unset = UNSET
-    bluff_combos_ratio: float | Unset = UNSET
-    quota: Quota | Unset = UNSET
-    pot_type: str | Unset = UNSET
+    range_oop_new: Union[Unset, str] = UNSET
+    range_ip_new: Union[Unset, str] = UNSET
+    range_oop_new_raw: Union[Unset, str] = UNSET
+    range_ip_new_raw: Union[Unset, str] = UNSET
+    range_oop_new_raw_before_normalization: Union[Unset, str] = UNSET
+    range_ip_new_raw_before_normalization: Union[Unset, str] = UNSET
+    hand_ranks_oop: Union[Unset, str] = UNSET
+    hand_ranks_ip: Union[Unset, str] = UNSET
+    hand_bottom_ranks_oop: Union[Unset, str] = UNSET
+    hand_bottom_ranks_ip: Union[Unset, str] = UNSET
+    node_id: Union[Unset, str] = UNSET
+    board: Union[Unset, list[str]] = UNSET
+    path_length: Union[Unset, int] = UNSET
+    bluff_discount_ratio: Union[Unset, float] = UNSET
+    bluff_combos_ratio: Union[Unset, float] = UNSET
+    quota: Union[Unset, "Quota"] = UNSET
+    pot_type: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.quota import Quota
         range_oop_new = self.range_oop_new
 
         range_ip_new = self.range_ip_new
@@ -97,11 +84,9 @@ class ProjectedRangeResponse:
 
         node_id = self.node_id
 
-        board: list[str] | Unset = UNSET
+        board: Union[Unset, list[str]] = UNSET
         if not isinstance(self.board, Unset):
             board = self.board
-
-
 
         path_length = self.path_length
 
@@ -109,17 +94,15 @@ class ProjectedRangeResponse:
 
         bluff_combos_ratio = self.bluff_combos_ratio
 
-        quota: dict[str, Any] | Unset = UNSET
+        quota: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.quota, Unset):
             quota = self.quota.to_dict()
 
         pot_type = self.pot_type
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if range_oop_new is not UNSET:
             field_dict["range_oop_new"] = range_oop_new
         if range_ip_new is not UNSET:
@@ -157,11 +140,10 @@ class ProjectedRangeResponse:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.quota import Quota
+
         d = dict(src_dict)
         range_oop_new = d.pop("range_oop_new", UNSET)
 
@@ -187,7 +169,6 @@ class ProjectedRangeResponse:
 
         board = cast(list[str], d.pop("board", UNSET))
 
-
         path_length = d.pop("path_length", UNSET)
 
         bluff_discount_ratio = d.pop("bluff_discount_ratio", UNSET)
@@ -195,14 +176,11 @@ class ProjectedRangeResponse:
         bluff_combos_ratio = d.pop("bluff_combos_ratio", UNSET)
 
         _quota = d.pop("quota", UNSET)
-        quota: Quota | Unset
-        if isinstance(_quota,  Unset):
+        quota: Union[Unset, Quota]
+        if isinstance(_quota, Unset):
             quota = UNSET
         else:
             quota = Quota.from_dict(_quota)
-
-
-
 
         pot_type = d.pop("pot_type", UNSET)
 
@@ -225,7 +203,6 @@ class ProjectedRangeResponse:
             quota=quota,
             pot_type=pot_type,
         )
-
 
         projected_range_response.additional_properties = d
         return projected_range_response

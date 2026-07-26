@@ -1,43 +1,29 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
 T = TypeVar("T", bound="NodeStrategyResponseActionsItem")
-
 
 
 @_attrs_define
 class NodeStrategyResponseActionsItem:
-    """ 
-        Attributes:
-            action (str | Unset):
-            amount_bb (float | Unset):
-            sizing_pot (float | Unset):
-            allin (bool | Unset):
-     """
+    """
+    Attributes:
+        action (Union[Unset, str]):
+        amount_bb (Union[Unset, float]):
+        sizing_pot (Union[Unset, float]):
+        allin (Union[Unset, bool]):
+    """
 
-    action: str | Unset = UNSET
-    amount_bb: float | Unset = UNSET
-    sizing_pot: float | Unset = UNSET
-    allin: bool | Unset = UNSET
+    action: Union[Unset, str] = UNSET
+    amount_bb: Union[Unset, float] = UNSET
+    sizing_pot: Union[Unset, float] = UNSET
+    allin: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         action = self.action
@@ -48,11 +34,9 @@ class NodeStrategyResponseActionsItem:
 
         allin = self.allin
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if action is not UNSET:
             field_dict["action"] = action
         if amount_bb is not UNSET:
@@ -63,8 +47,6 @@ class NodeStrategyResponseActionsItem:
             field_dict["allin"] = allin
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -83,7 +65,6 @@ class NodeStrategyResponseActionsItem:
             sizing_pot=sizing_pot,
             allin=allin,
         )
-
 
         node_strategy_response_actions_item.additional_properties = d
         return node_strategy_response_actions_item

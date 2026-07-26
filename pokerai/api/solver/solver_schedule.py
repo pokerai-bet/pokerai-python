@@ -1,31 +1,21 @@
 from http import HTTPStatus
-from typing import Any, cast
-from urllib.parse import quote
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.solver_schedule_request import SolverScheduleRequest
 from ...models.solver_schedule_response import SolverScheduleResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     *,
     body: SolverScheduleRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
-
-
-    
-
-    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -40,33 +30,26 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | SolverScheduleResponse | None:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[Error, SolverScheduleResponse]]:
     if response.status_code == 200:
         response_200 = SolverScheduleResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
 
-
-
         return response_400
 
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
 
-
-
         return response_401
 
     if response.status_code == 429:
         response_429 = Error.from_dict(response.json())
-
-
 
         return response_429
 
@@ -76,7 +59,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | SolverScheduleResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[Error, SolverScheduleResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -87,11 +72,10 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverScheduleRequest,
-
-) -> Response[Error | SolverScheduleResponse]:
-    """ Schedule a real-time solve (flop/turn/river)
+) -> Response[Union[Error, SolverScheduleResponse]]:
+    """Schedule a real-time solve (flop/turn/river)
 
      board length sets the street (3=flop, 4=turn, 5=river). Charges 1 solve quota on a fresh trigger; a
     cached solve returns status=queryable with no solve_quota field (not charged); all solver hosts busy
@@ -105,13 +89,11 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | SolverScheduleResponse]
-     """
-
+        Response[Union[Error, SolverScheduleResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
     response = client.get_httpx_client().request(
@@ -120,13 +102,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverScheduleRequest,
-
-) -> Error | SolverScheduleResponse | None:
-    """ Schedule a real-time solve (flop/turn/river)
+) -> Optional[Union[Error, SolverScheduleResponse]]:
+    """Schedule a real-time solve (flop/turn/river)
 
      board length sets the street (3=flop, 4=turn, 5=river). Charges 1 solve quota on a fresh trigger; a
     cached solve returns status=queryable with no solve_quota field (not charged); all solver hosts busy
@@ -140,23 +122,21 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | SolverScheduleResponse
-     """
-
+        Union[Error, SolverScheduleResponse]
+    """
 
     return sync_detailed(
         client=client,
-body=body,
-
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverScheduleRequest,
-
-) -> Response[Error | SolverScheduleResponse]:
-    """ Schedule a real-time solve (flop/turn/river)
+) -> Response[Union[Error, SolverScheduleResponse]]:
+    """Schedule a real-time solve (flop/turn/river)
 
      board length sets the street (3=flop, 4=turn, 5=river). Charges 1 solve quota on a fresh trigger; a
     cached solve returns status=queryable with no solve_quota field (not charged); all solver hosts busy
@@ -170,28 +150,24 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | SolverScheduleResponse]
-     """
-
+        Response[Union[Error, SolverScheduleResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
+
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverScheduleRequest,
-
-) -> Error | SolverScheduleResponse | None:
-    """ Schedule a real-time solve (flop/turn/river)
+) -> Optional[Union[Error, SolverScheduleResponse]]:
+    """Schedule a real-time solve (flop/turn/river)
 
      board length sets the street (3=flop, 4=turn, 5=river). Charges 1 solve quota on a fresh trigger; a
     cached solve returns status=queryable with no solve_quota field (not charged); all solver hosts busy
@@ -205,12 +181,12 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | SolverScheduleResponse
-     """
+        Union[Error, SolverScheduleResponse]
+    """
 
-
-    return (await asyncio_detailed(
-        client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+        )
+    ).parsed

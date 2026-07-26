@@ -6,50 +6,42 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="PreflopRangeResponse200Quota")
+T = TypeVar("T", bound="SolverReleaseResponse200")
 
 
 @_attrs_define
-class PreflopRangeResponse200Quota:
+class SolverReleaseResponse200:
     """
     Attributes:
-        used (Union[Unset, int]):
-        limit (Union[Unset, int]):
+        released (Union[Unset, bool]): true if a live port claim was dropped; false if the solve had already expired
+            (no-op)
     """
 
-    used: Union[Unset, int] = UNSET
-    limit: Union[Unset, int] = UNSET
+    released: Union[Unset, bool] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        used = self.used
-
-        limit = self.limit
+        released = self.released
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
-        if used is not UNSET:
-            field_dict["used"] = used
-        if limit is not UNSET:
-            field_dict["limit"] = limit
+        if released is not UNSET:
+            field_dict["released"] = released
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        used = d.pop("used", UNSET)
+        released = d.pop("released", UNSET)
 
-        limit = d.pop("limit", UNSET)
-
-        preflop_range_response_200_quota = cls(
-            used=used,
-            limit=limit,
+        solver_release_response_200 = cls(
+            released=released,
         )
 
-        preflop_range_response_200_quota.additional_properties = d
-        return preflop_range_response_200_quota
+        solver_release_response_200.additional_properties = d
+        return solver_release_response_200
 
     @property
     def additional_keys(self) -> list[str]:

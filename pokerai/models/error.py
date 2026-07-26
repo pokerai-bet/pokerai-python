@@ -1,58 +1,40 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
 T = TypeVar("T", bound="Error")
-
 
 
 @_attrs_define
 class Error:
-    """ 
-        Attributes:
-            error (str | Unset):  Example: missing_api_key.
-            message (str | Unset):
-     """
+    """
+    Attributes:
+        error (Union[Unset, str]):  Example: missing_api_key.
+        message (Union[Unset, str]):
+    """
 
-    error: str | Unset = UNSET
-    message: str | Unset = UNSET
+    error: Union[Unset, str] = UNSET
+    message: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         error = self.error
 
         message = self.message
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if error is not UNSET:
             field_dict["error"] = error
         if message is not UNSET:
             field_dict["message"] = message
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -65,7 +47,6 @@ class Error:
             error=error,
             message=message,
         )
-
 
         error.additional_properties = d
         return error

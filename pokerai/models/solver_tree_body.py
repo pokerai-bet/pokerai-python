@@ -1,43 +1,29 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
 T = TypeVar("T", bound="SolverTreeBody")
-
 
 
 @_attrs_define
 class SolverTreeBody:
-    """ 
-        Attributes:
-            solve (str): handle from /v1/gto/solver
-            turn_card (str | Unset): optional; for a flop solve, the dealt turn card (e.g. "Td") — returns nodes under that
-                turn.
-            river_card (str | Unset): optional; the dealt river card (e.g. "Qh"). From a flop solve, pair with turn_card to
-                disambiguate.
-     """
+    """
+    Attributes:
+        solve (str): handle from /v1/gto/solver
+        turn_card (Union[Unset, str]): optional; for a flop solve, the dealt turn card (e.g. "Td") — returns nodes under
+            that turn.
+        river_card (Union[Unset, str]): optional; the dealt river card (e.g. "Qh"). From a flop solve, pair with
+            turn_card to disambiguate.
+    """
 
     solve: str
-    turn_card: str | Unset = UNSET
-    river_card: str | Unset = UNSET
+    turn_card: Union[Unset, str] = UNSET
+    river_card: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         solve = self.solve
@@ -46,20 +32,19 @@ class SolverTreeBody:
 
         river_card = self.river_card
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "solve": solve,
-        })
+        field_dict.update(
+            {
+                "solve": solve,
+            }
+        )
         if turn_card is not UNSET:
             field_dict["turn_card"] = turn_card
         if river_card is not UNSET:
             field_dict["river_card"] = river_card
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -75,7 +60,6 @@ class SolverTreeBody:
             turn_card=turn_card,
             river_card=river_card,
         )
-
 
         solver_tree_body.additional_properties = d
         return solver_tree_body

@@ -1,58 +1,34 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-from typing import cast
-
-
-
-
-
-
 T = TypeVar("T", bound="EvsResponseEvs")
-
 
 
 @_attrs_define
 class EvsResponseEvs:
-    """ hand -> per-action EV array (bb); a single array when hand is given
+    """hand -> per-action EV array (bb); a single array when hand is given
 
-        Example:
-            {'2c2d': [-0.826359, -0.792223, -1.643411]}
+    Example:
+        {'2c2d': [-0.826359, -0.792223, -1.643411]}
 
-     """
+    """
 
     additional_properties: dict[str, list[float]] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        
         field_dict: dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = prop
 
-
-
-
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        evs_response_evs = cls(
-        )
-
+        evs_response_evs = cls()
 
         additional_properties = {}
         for prop_name, prop_dict in d.items():

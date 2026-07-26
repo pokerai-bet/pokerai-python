@@ -1,31 +1,21 @@
 from http import HTTPStatus
-from typing import Any, cast
-from urllib.parse import quote
+from typing import Any, Optional, Union, cast
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.evs_request import EvsRequest
 from ...models.evs_response import EvsResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     *,
     body: EvsRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
-
-
-    
-
-    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -40,26 +30,21 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | EvsResponse | None:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[Any, Error, EvsResponse]]:
     if response.status_code == 200:
         response_200 = EvsResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
 
-
-
         return response_400
 
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
-
-
 
         return response_401
 
@@ -77,7 +62,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error | EvsResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[Any, Error, EvsResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -88,11 +75,10 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: EvsRequest,
-
-) -> Response[Any | Error | EvsResponse]:
-    """ Node EVs — per-hand, per-action expected values of a completed solve (free)
+) -> Response[Union[Any, Error, EvsResponse]]:
+    """Node EVs — per-hand, per-action expected values of a completed solve (free)
 
      Per-hand, per-action expected values at one node of a completed solve. Give the solve handle (from
     /v1/gto/solver) + a node_id (from /v1/gto/solver/tree); optional hand filters to one hand. Free
@@ -106,13 +92,11 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error | EvsResponse]
-     """
-
+        Response[Union[Any, Error, EvsResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
     response = client.get_httpx_client().request(
@@ -121,13 +105,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: EvsRequest,
-
-) -> Any | Error | EvsResponse | None:
-    """ Node EVs — per-hand, per-action expected values of a completed solve (free)
+) -> Optional[Union[Any, Error, EvsResponse]]:
+    """Node EVs — per-hand, per-action expected values of a completed solve (free)
 
      Per-hand, per-action expected values at one node of a completed solve. Give the solve handle (from
     /v1/gto/solver) + a node_id (from /v1/gto/solver/tree); optional hand filters to one hand. Free
@@ -141,23 +125,21 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error | EvsResponse
-     """
-
+        Union[Any, Error, EvsResponse]
+    """
 
     return sync_detailed(
         client=client,
-body=body,
-
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: EvsRequest,
-
-) -> Response[Any | Error | EvsResponse]:
-    """ Node EVs — per-hand, per-action expected values of a completed solve (free)
+) -> Response[Union[Any, Error, EvsResponse]]:
+    """Node EVs — per-hand, per-action expected values of a completed solve (free)
 
      Per-hand, per-action expected values at one node of a completed solve. Give the solve handle (from
     /v1/gto/solver) + a node_id (from /v1/gto/solver/tree); optional hand filters to one hand. Free
@@ -171,28 +153,24 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error | EvsResponse]
-     """
-
+        Response[Union[Any, Error, EvsResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
+
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: EvsRequest,
-
-) -> Any | Error | EvsResponse | None:
-    """ Node EVs — per-hand, per-action expected values of a completed solve (free)
+) -> Optional[Union[Any, Error, EvsResponse]]:
+    """Node EVs — per-hand, per-action expected values of a completed solve (free)
 
      Per-hand, per-action expected values at one node of a completed solve. Give the solve handle (from
     /v1/gto/solver) + a node_id (from /v1/gto/solver/tree); optional hand filters to one hand. Free
@@ -206,12 +184,12 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error | EvsResponse
-     """
+        Union[Any, Error, EvsResponse]
+    """
 
-
-    return (await asyncio_detailed(
-        client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+        )
+    ).parsed

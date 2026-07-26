@@ -1,86 +1,66 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.solver_tree_response_spot_status import SolverTreeResponseSpotStatus
 from ..models.solver_tree_response_street import SolverTreeResponseStreet
 from ..types import UNSET, Unset
-from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.solver_tree_response_nodes_item import SolverTreeResponseNodesItem
-
-
-
+    from ..models.solver_tree_response_nodes_item import SolverTreeResponseNodesItem
 
 
 T = TypeVar("T", bound="SolverTreeResponse")
 
 
-
 @_attrs_define
 class SolverTreeResponse:
-    """ 
-        Attributes:
-            street (SolverTreeResponseStreet | Unset):
-            pot (float | Unset):
-            effective_stack (float | Unset):
-            spot_status (SolverTreeResponseSpotStatus | Unset): no_nodes = solve converged but the queried round/runout has
-                no decision nodes in the tree (terminal — stop polling).
-            node_count (int | Unset):
-            nodes (list[SolverTreeResponseNodesItem] | Unset):
-     """
+    """
+    Attributes:
+        street (Union[Unset, SolverTreeResponseStreet]):
+        pot (Union[Unset, float]):
+        effective_stack (Union[Unset, float]):
+        spot_status (Union[Unset, SolverTreeResponseSpotStatus]): no_nodes = solve converged but the queried
+            round/runout has no decision nodes in the tree (terminal — stop polling).
+        node_count (Union[Unset, int]):
+        nodes (Union[Unset, list['SolverTreeResponseNodesItem']]):
+    """
 
-    street: SolverTreeResponseStreet | Unset = UNSET
-    pot: float | Unset = UNSET
-    effective_stack: float | Unset = UNSET
-    spot_status: SolverTreeResponseSpotStatus | Unset = UNSET
-    node_count: int | Unset = UNSET
-    nodes: list[SolverTreeResponseNodesItem] | Unset = UNSET
+    street: Union[Unset, SolverTreeResponseStreet] = UNSET
+    pot: Union[Unset, float] = UNSET
+    effective_stack: Union[Unset, float] = UNSET
+    spot_status: Union[Unset, SolverTreeResponseSpotStatus] = UNSET
+    node_count: Union[Unset, int] = UNSET
+    nodes: Union[Unset, list["SolverTreeResponseNodesItem"]] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.solver_tree_response_nodes_item import SolverTreeResponseNodesItem
-        street: str | Unset = UNSET
+        street: Union[Unset, str] = UNSET
         if not isinstance(self.street, Unset):
             street = self.street.value
-
 
         pot = self.pot
 
         effective_stack = self.effective_stack
 
-        spot_status: str | Unset = UNSET
+        spot_status: Union[Unset, str] = UNSET
         if not isinstance(self.spot_status, Unset):
             spot_status = self.spot_status.value
 
-
         node_count = self.node_count
 
-        nodes: list[dict[str, Any]] | Unset = UNSET
+        nodes: Union[Unset, list[dict[str, Any]]] = UNSET
         if not isinstance(self.nodes, Unset):
             nodes = []
             for nodes_item_data in self.nodes:
                 nodes_item = nodes_item_data.to_dict()
                 nodes.append(nodes_item)
 
-
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if street is not UNSET:
             field_dict["street"] = street
         if pot is not UNSET:
@@ -96,49 +76,37 @@ class SolverTreeResponse:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.solver_tree_response_nodes_item import SolverTreeResponseNodesItem
+
         d = dict(src_dict)
         _street = d.pop("street", UNSET)
-        street: SolverTreeResponseStreet | Unset
-        if isinstance(_street,  Unset):
+        street: Union[Unset, SolverTreeResponseStreet]
+        if isinstance(_street, Unset):
             street = UNSET
         else:
             street = SolverTreeResponseStreet(_street)
-
-
-
 
         pot = d.pop("pot", UNSET)
 
         effective_stack = d.pop("effective_stack", UNSET)
 
         _spot_status = d.pop("spot_status", UNSET)
-        spot_status: SolverTreeResponseSpotStatus | Unset
-        if isinstance(_spot_status,  Unset):
+        spot_status: Union[Unset, SolverTreeResponseSpotStatus]
+        if isinstance(_spot_status, Unset):
             spot_status = UNSET
         else:
             spot_status = SolverTreeResponseSpotStatus(_spot_status)
 
-
-
-
         node_count = d.pop("node_count", UNSET)
 
+        nodes = []
         _nodes = d.pop("nodes", UNSET)
-        nodes: list[SolverTreeResponseNodesItem] | Unset = UNSET
-        if _nodes is not UNSET:
-            nodes = []
-            for nodes_item_data in _nodes:
-                nodes_item = SolverTreeResponseNodesItem.from_dict(nodes_item_data)
+        for nodes_item_data in _nodes or []:
+            nodes_item = SolverTreeResponseNodesItem.from_dict(nodes_item_data)
 
-
-
-                nodes.append(nodes_item)
-
+            nodes.append(nodes_item)
 
         solver_tree_response = cls(
             street=street,
@@ -148,7 +116,6 @@ class SolverTreeResponse:
             node_count=node_count,
             nodes=nodes,
         )
-
 
         solver_tree_response.additional_properties = d
         return solver_tree_response

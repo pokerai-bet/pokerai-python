@@ -1,55 +1,46 @@
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
-T = TypeVar("T", bound="PreflopRangeResponse200Quota")
+T = TypeVar("T", bound="SolverReleaseBody")
 
 
 @_attrs_define
-class PreflopRangeResponse200Quota:
+class SolverReleaseBody:
     """
     Attributes:
-        used (Union[Unset, int]):
-        limit (Union[Unset, int]):
+        solve (str): handle from /v1/gto/solver
     """
 
-    used: Union[Unset, int] = UNSET
-    limit: Union[Unset, int] = UNSET
+    solve: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        used = self.used
-
-        limit = self.limit
+        solve = self.solve
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if used is not UNSET:
-            field_dict["used"] = used
-        if limit is not UNSET:
-            field_dict["limit"] = limit
+        field_dict.update(
+            {
+                "solve": solve,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        used = d.pop("used", UNSET)
+        solve = d.pop("solve")
 
-        limit = d.pop("limit", UNSET)
-
-        preflop_range_response_200_quota = cls(
-            used=used,
-            limit=limit,
+        solver_release_body = cls(
+            solve=solve,
         )
 
-        preflop_range_response_200_quota.additional_properties = d
-        return preflop_range_response_200_quota
+        solver_release_body.additional_properties = d
+        return solver_release_body
 
     @property
     def additional_keys(self) -> list[str]:

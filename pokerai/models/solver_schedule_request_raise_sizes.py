@@ -6,12 +6,12 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="SolverScheduleRequestBetSizes")
+T = TypeVar("T", bound="SolverScheduleRequestRaiseSizes")
 
 
 @_attrs_define
-class SolverScheduleRequestBetSizes:
-    """optional per-street opening bet sizes in pot %; flop defaults to 50%
+class SolverScheduleRequestRaiseSizes:
+    """optional per-street raise sizes in pot %; omitted streets reuse bet_sizes/defaults
 
     Attributes:
         flop (Union[Unset, list[int]]):
@@ -58,14 +58,14 @@ class SolverScheduleRequestBetSizes:
 
         river = cast(list[int], d.pop("river", UNSET))
 
-        solver_schedule_request_bet_sizes = cls(
+        solver_schedule_request_raise_sizes = cls(
             flop=flop,
             turn=turn,
             river=river,
         )
 
-        solver_schedule_request_bet_sizes.additional_properties = d
-        return solver_schedule_request_bet_sizes
+        solver_schedule_request_raise_sizes.additional_properties = d
+        return solver_schedule_request_raise_sizes
 
     @property
     def additional_keys(self) -> list[str]:
