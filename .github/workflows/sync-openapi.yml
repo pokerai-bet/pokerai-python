@@ -67,6 +67,7 @@ jobs:
           PY
 
       - name: Create sync pull request
+        continue-on-error: true
         uses: peter-evans/create-pull-request@v6
         with:
           branch: automation/sync-openapi
