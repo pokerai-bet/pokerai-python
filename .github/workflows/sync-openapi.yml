@@ -1,0 +1,76 @@
+name: Sync OpenAPI
+
+on:
+  repository_dispatch:
+    types: [openapi_updated]
+  workflow_dispatch:
+    inputs:
+      openapi_yaml_url:
+        description: OpenAPI YAML URL
+        required: false
+        default: https://pokerai.bet/openapi.yaml
+      source_sha:
+        description: gv-gto-auth source SHA
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install generator
+        run: python -m pip install openapi-python-client==0.26.2
+
+      - name: Download OpenAPI
+        env:
+          DISPATCH_URL: ${{ github.event.client_payload.openapi_yaml_url }}
+          INPUT_URL: ${{ inputs.openapi_yaml_url }}
+        run: |
+          set -euo pipefail
+          url="${DISPATCH_URL:-${INPUT_URL:-https://pokerai.bet/openapi.yaml}}"
+          curl -fsSL "$url" -o /tmp/pokerai-openapi.yaml
+
+      - name: Regenerate client
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/pokerai-python-next
+          openapi-python-client generate \
+            --path /tmp/pokerai-openapi.yaml \
+            --config openapi-python-client.yaml \
+            --output-path /tmp/pokerai-python-next \
+            --overwrite \
+            --meta poetry
+          rsync -a --delete /tmp/pokerai-python-next/pokerai/api/ pokerai/api/
+          rsync -a --delete /tmp/pokerai-python-next/pokerai/models/ pokerai/models/
+          cp /tmp/pokerai-python-next/pokerai/client.py pokerai/client.py
+          cp /tmp/pokerai-python-next/pokerai/errors.py pokerai/errors.py
+          cp /tmp/pokerai-python-next/pokerai/types.py pokerai/types.py
+          cp /tmp/pokerai-python-next/pokerai/py.typed pokerai/py.typed
+
+      - name: Test
+        run: |
+          python -m pip install -e .
+          python -m unittest discover -s tests
+
+      - name: Create sync pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: automation/sync-openapi
+          delete-branch: true
+          title: Sync OpenAPI-generated Python client
+          commit-message: chore: sync OpenAPI-generated Python client
+          body: |
+            Automated OpenAPI sync from Pokerai API.
+
+            Source repo: ${{ github.event.client_payload.source_repo || 'pokerai-bet/gv-gto-auth' }}
+            Source SHA: ${{ github.event.client_payload.source_sha || inputs.source_sha || 'manual' }}
+            Spec URL: ${{ github.event.client_payload.openapi_yaml_url || inputs.openapi_yaml_url || 'https://pokerai.bet/openapi.yaml' }}
