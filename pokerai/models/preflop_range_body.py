@@ -1,54 +1,45 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.preflop_range_body_preflop_version import PreflopRangeBodyPreflopVersion
 from ..types import UNSET, Unset
-from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.preflop_range_body_positions import PreflopRangeBodyPositions
-  from ..models.preflop_range_body_preflop_actions_item import PreflopRangeBodyPreflopActionsItem
-
-
-
+    from ..models.preflop_range_body_positions import PreflopRangeBodyPositions
+    from ..models.preflop_range_body_preflop_actions_item import PreflopRangeBodyPreflopActionsItem
 
 
 T = TypeVar("T", bound="PreflopRangeBody")
 
 
-
 @_attrs_define
 class PreflopRangeBody:
-    """ 
-        Attributes:
-            table_size (str):  Example: 6max.
-            positions (PreflopRangeBodyPositions):
-            preflop_actions (list[PreflopRangeBodyPreflopActionsItem]): full action sequence from SB/BB, same as
-                /v1/gto/preflop
-            preflop_version (PreflopRangeBodyPreflopVersion | Unset): optional; which 6max preflop chart set to use (same as
-                /v1/gto/preflop). Omit for the default.
-     """
+    """
+    Attributes:
+        table_size (str):  Example: 6max.
+        positions (PreflopRangeBodyPositions):
+        preflop_actions (list['PreflopRangeBodyPreflopActionsItem']): full action sequence from SB/BB, same as
+            /v1/gto/preflop
+        preflop_version (Union[Unset, PreflopRangeBodyPreflopVersion]): optional; which 6max preflop chart set to use
+            (same as /v1/gto/preflop). Omit for the default.
+        include_flop_pruning_guarantees (Union[Unset, bool]): optional; when true, include the offline immutable Flop-
+            batch pruning manifest guarantee. Omit to preserve the existing response shape.
+        flop_version (Union[Unset, str]): optional Flop dataset version for the guarantee lookup; there is no
+            flop_context.
+    """
 
     table_size: str
-    positions: PreflopRangeBodyPositions
-    preflop_actions: list[PreflopRangeBodyPreflopActionsItem]
-    preflop_version: PreflopRangeBodyPreflopVersion | Unset = UNSET
+    positions: "PreflopRangeBodyPositions"
+    preflop_actions: list["PreflopRangeBodyPreflopActionsItem"]
+    preflop_version: Union[Unset, PreflopRangeBodyPreflopVersion] = UNSET
+    include_flop_pruning_guarantees: Union[Unset, bool] = UNSET
+    flop_version: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.preflop_range_body_positions import PreflopRangeBodyPositions
-        from ..models.preflop_range_body_preflop_actions_item import PreflopRangeBodyPreflopActionsItem
         table_size = self.table_size
 
         positions = self.positions.to_dict()
@@ -58,67 +49,68 @@ class PreflopRangeBody:
             preflop_actions_item = preflop_actions_item_data.to_dict()
             preflop_actions.append(preflop_actions_item)
 
-
-
-        preflop_version: str | Unset = UNSET
+        preflop_version: Union[Unset, str] = UNSET
         if not isinstance(self.preflop_version, Unset):
             preflop_version = self.preflop_version.value
 
+        include_flop_pruning_guarantees = self.include_flop_pruning_guarantees
 
+        flop_version = self.flop_version
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "table_size": table_size,
-            "positions": positions,
-            "preflop_actions": preflop_actions,
-        })
+        field_dict.update(
+            {
+                "table_size": table_size,
+                "positions": positions,
+                "preflop_actions": preflop_actions,
+            }
+        )
         if preflop_version is not UNSET:
             field_dict["preflop_version"] = preflop_version
+        if include_flop_pruning_guarantees is not UNSET:
+            field_dict["include_flop_pruning_guarantees"] = include_flop_pruning_guarantees
+        if flop_version is not UNSET:
+            field_dict["flop_version"] = flop_version
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.preflop_range_body_positions import PreflopRangeBodyPositions
         from ..models.preflop_range_body_preflop_actions_item import PreflopRangeBodyPreflopActionsItem
+
         d = dict(src_dict)
         table_size = d.pop("table_size")
 
         positions = PreflopRangeBodyPositions.from_dict(d.pop("positions"))
 
-
-
-
         preflop_actions = []
         _preflop_actions = d.pop("preflop_actions")
-        for preflop_actions_item_data in (_preflop_actions):
+        for preflop_actions_item_data in _preflop_actions:
             preflop_actions_item = PreflopRangeBodyPreflopActionsItem.from_dict(preflop_actions_item_data)
-
-
 
             preflop_actions.append(preflop_actions_item)
 
-
         _preflop_version = d.pop("preflop_version", UNSET)
-        preflop_version: PreflopRangeBodyPreflopVersion | Unset
-        if isinstance(_preflop_version,  Unset):
+        preflop_version: Union[Unset, PreflopRangeBodyPreflopVersion]
+        if isinstance(_preflop_version, Unset):
             preflop_version = UNSET
         else:
             preflop_version = PreflopRangeBodyPreflopVersion(_preflop_version)
 
+        include_flop_pruning_guarantees = d.pop("include_flop_pruning_guarantees", UNSET)
 
-
+        flop_version = d.pop("flop_version", UNSET)
 
         preflop_range_body = cls(
             table_size=table_size,
             positions=positions,
             preflop_actions=preflop_actions,
             preflop_version=preflop_version,
+            include_flop_pruning_guarantees=include_flop_pruning_guarantees,
+            flop_version=flop_version,
         )
-
 
         preflop_range_body.additional_properties = d
         return preflop_range_body

@@ -1,31 +1,22 @@
 from http import HTTPStatus
-from typing import Any, cast
-from urllib.parse import quote
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.flop_node_request import FlopNodeRequest
+from ...models.flop_node_response_422 import FlopNodeResponse422
 from ...models.node_strategy_response import NodeStrategyResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     *,
     body: FlopNodeRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
-
-
-    
-
-    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -40,42 +31,38 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | NodeStrategyResponse | None:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]:
     if response.status_code == 200:
         response_200 = NodeStrategyResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
 
-
-
         return response_400
 
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
-
-
 
         return response_401
 
     if response.status_code == 403:
         response_403 = Error.from_dict(response.json())
 
-
-
         return response_403
 
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
-
-
         return response_404
+
+    if response.status_code == 422:
+        response_422 = FlopNodeResponse422.from_dict(response.json())
+
+        return response_422
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -83,7 +70,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | NodeStrategyResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -94,11 +83,10 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: FlopNodeRequest,
-
-) -> Response[Error | NodeStrategyResponse]:
-    """ Flop node strategy (presolved) — one decision-tree node
+) -> Response[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]:
+    """Flop node strategy (presolved) — one decision-tree node
 
      Per-node strategy for the flop decision tree (free, token-gated). Pass a `node` token minted by POST
     /v1/gto/flop/tree. With hole_cards → that hand's mixed strategy at the node; omit hole_cards → the
@@ -109,7 +97,9 @@ def sync_detailed(
     after checking → fold/call/raise), and pass its token here. The root node (root) is hero's first
     decision (OOP check/bet).
 
-    The flop tree is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
+    If requested hole_cards were removed from the tree's effective range, this endpoint returns terminal
+    HTTP 422 hand_not_in_effective_range; do not retry it and do not describe it as 404. The flop tree
+    is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
 
     Args:
         body (FlopNodeRequest):
@@ -119,13 +109,11 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | NodeStrategyResponse]
-     """
-
+        Response[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
     response = client.get_httpx_client().request(
@@ -134,13 +122,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: FlopNodeRequest,
-
-) -> Error | NodeStrategyResponse | None:
-    """ Flop node strategy (presolved) — one decision-tree node
+) -> Optional[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]:
+    """Flop node strategy (presolved) — one decision-tree node
 
      Per-node strategy for the flop decision tree (free, token-gated). Pass a `node` token minted by POST
     /v1/gto/flop/tree. With hole_cards → that hand's mixed strategy at the node; omit hole_cards → the
@@ -151,7 +139,9 @@ def sync(
     after checking → fold/call/raise), and pass its token here. The root node (root) is hero's first
     decision (OOP check/bet).
 
-    The flop tree is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
+    If requested hole_cards were removed from the tree's effective range, this endpoint returns terminal
+    HTTP 422 hand_not_in_effective_range; do not retry it and do not describe it as 404. The flop tree
+    is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
 
     Args:
         body (FlopNodeRequest):
@@ -161,23 +151,21 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | NodeStrategyResponse
-     """
-
+        Union[Error, FlopNodeResponse422, NodeStrategyResponse]
+    """
 
     return sync_detailed(
         client=client,
-body=body,
-
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: FlopNodeRequest,
-
-) -> Response[Error | NodeStrategyResponse]:
-    """ Flop node strategy (presolved) — one decision-tree node
+) -> Response[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]:
+    """Flop node strategy (presolved) — one decision-tree node
 
      Per-node strategy for the flop decision tree (free, token-gated). Pass a `node` token minted by POST
     /v1/gto/flop/tree. With hole_cards → that hand's mixed strategy at the node; omit hole_cards → the
@@ -188,7 +176,9 @@ async def asyncio_detailed(
     after checking → fold/call/raise), and pass its token here. The root node (root) is hero's first
     decision (OOP check/bet).
 
-    The flop tree is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
+    If requested hole_cards were removed from the tree's effective range, this endpoint returns terminal
+    HTTP 422 hand_not_in_effective_range; do not retry it and do not describe it as 404. The flop tree
+    is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
 
     Args:
         body (FlopNodeRequest):
@@ -198,28 +188,24 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | NodeStrategyResponse]
-     """
-
+        Response[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
+
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: FlopNodeRequest,
-
-) -> Error | NodeStrategyResponse | None:
-    """ Flop node strategy (presolved) — one decision-tree node
+) -> Optional[Union[Error, FlopNodeResponse422, NodeStrategyResponse]]:
+    """Flop node strategy (presolved) — one decision-tree node
 
      Per-node strategy for the flop decision tree (free, token-gated). Pass a `node` token minted by POST
     /v1/gto/flop/tree. With hole_cards → that hand's mixed strategy at the node; omit hole_cards → the
@@ -230,7 +216,9 @@ async def asyncio(
     after checking → fold/call/raise), and pass its token here. The root node (root) is hero's first
     decision (OOP check/bet).
 
-    The flop tree is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
+    If requested hole_cards were removed from the tree's effective range, this endpoint returns terminal
+    HTTP 422 hand_not_in_effective_range; do not retry it and do not describe it as 404. The flop tree
+    is single-street; for turn/river decisions use the solver line (/v1/gto/solver/*).
 
     Args:
         body (FlopNodeRequest):
@@ -240,12 +228,12 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | NodeStrategyResponse
-     """
+        Union[Error, FlopNodeResponse422, NodeStrategyResponse]
+    """
 
-
-    return (await asyncio_detailed(
-        client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+        )
+    ).parsed

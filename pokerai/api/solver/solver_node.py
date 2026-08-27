@@ -1,32 +1,22 @@
 from http import HTTPStatus
-from typing import Any, cast
-from urllib.parse import quote
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.node_strategy_response import NodeStrategyResponse
 from ...models.solver_node_body import SolverNodeBody
 from ...models.solver_node_response_200_type_1 import SolverNodeResponse200Type1
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     *,
     body: SolverNodeBody,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
-
-
-    
-
-    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -41,25 +31,23 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | NodeStrategyResponse | SolverNodeResponse200Type1 | None:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[Error, Union["NodeStrategyResponse", "SolverNodeResponse200Type1"]]]:
     if response.status_code == 200:
-        def _parse_response_200(data: object) -> NodeStrategyResponse | SolverNodeResponse200Type1:
+
+        def _parse_response_200(data: object) -> Union["NodeStrategyResponse", "SolverNodeResponse200Type1"]:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
                 response_200_type_0 = NodeStrategyResponse.from_dict(data)
 
-
-
                 return response_200_type_0
-            except (TypeError, ValueError, AttributeError, KeyError):
+            except:  # noqa: E722
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
             response_200_type_1 = SolverNodeResponse200Type1.from_dict(data)
-
-
 
             return response_200_type_1
 
@@ -70,14 +58,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
 
-
-
         return response_401
 
     if response.status_code == 503:
         response_503 = Error.from_dict(response.json())
-
-
 
         return response_503
 
@@ -87,7 +71,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | NodeStrategyResponse | SolverNodeResponse200Type1]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[Error, Union["NodeStrategyResponse", "SolverNodeResponse200Type1"]]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -98,11 +84,10 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverNodeBody,
-
-) -> Response[Error | NodeStrategyResponse | SolverNodeResponse200Type1]:
-    """ Node strategy from a solve (free)
+) -> Response[Union[Error, Union["NodeStrategyResponse", "SolverNodeResponse200Type1"]]]:
+    """Node strategy from a solve (free)
 
      hero node → hero strategy; villain node (or omit hole_cards) → whole-range strategy.
 
@@ -114,13 +99,11 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | NodeStrategyResponse | SolverNodeResponse200Type1]
-     """
-
+        Response[Union[Error, Union['NodeStrategyResponse', 'SolverNodeResponse200Type1']]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
     response = client.get_httpx_client().request(
@@ -129,13 +112,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverNodeBody,
-
-) -> Error | NodeStrategyResponse | SolverNodeResponse200Type1 | None:
-    """ Node strategy from a solve (free)
+) -> Optional[Union[Error, Union["NodeStrategyResponse", "SolverNodeResponse200Type1"]]]:
+    """Node strategy from a solve (free)
 
      hero node → hero strategy; villain node (or omit hole_cards) → whole-range strategy.
 
@@ -147,23 +130,21 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | NodeStrategyResponse | SolverNodeResponse200Type1
-     """
-
+        Union[Error, Union['NodeStrategyResponse', 'SolverNodeResponse200Type1']]
+    """
 
     return sync_detailed(
         client=client,
-body=body,
-
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverNodeBody,
-
-) -> Response[Error | NodeStrategyResponse | SolverNodeResponse200Type1]:
-    """ Node strategy from a solve (free)
+) -> Response[Union[Error, Union["NodeStrategyResponse", "SolverNodeResponse200Type1"]]]:
+    """Node strategy from a solve (free)
 
      hero node → hero strategy; villain node (or omit hole_cards) → whole-range strategy.
 
@@ -175,28 +156,24 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | NodeStrategyResponse | SolverNodeResponse200Type1]
-     """
-
+        Response[Union[Error, Union['NodeStrategyResponse', 'SolverNodeResponse200Type1']]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
+
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: SolverNodeBody,
-
-) -> Error | NodeStrategyResponse | SolverNodeResponse200Type1 | None:
-    """ Node strategy from a solve (free)
+) -> Optional[Union[Error, Union["NodeStrategyResponse", "SolverNodeResponse200Type1"]]]:
+    """Node strategy from a solve (free)
 
      hero node → hero strategy; villain node (or omit hole_cards) → whole-range strategy.
 
@@ -208,12 +185,12 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | NodeStrategyResponse | SolverNodeResponse200Type1
-     """
+        Union[Error, Union['NodeStrategyResponse', 'SolverNodeResponse200Type1']]
+    """
 
-
-    return (await asyncio_detailed(
-        client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+        )
+    ).parsed

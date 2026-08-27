@@ -1,81 +1,60 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.position import Position
 from ..types import UNSET, Unset
-
-
-
-
-
 
 T = TypeVar("T", bound="FlopPositions")
 
 
-
 @_attrs_define
 class FlopPositions:
-    """ required keys depend on pot_type — SRP: hero,raiser,caller; 3BET/4BET: hero,raiser,three_bettor (for 4BET, raiser =
+    """required keys depend on pot_type — SRP: hero,raiser,caller; 3BET/4BET: hero,raiser,three_bettor (for 4BET, raiser =
     the opener who 4-bet, three_bettor = the 3-bettor who called; no four_bettor key); LIMP: hero,limper. hero must be
     one of the named seats.
 
         Attributes:
-            hero (Position | Unset):
-            raiser (Position | Unset):
-            caller (Position | Unset):
-            three_bettor (Position | Unset):
-            limper (Position | Unset):
-     """
+            hero (Union[Unset, Position]):
+            raiser (Union[Unset, Position]):
+            caller (Union[Unset, Position]):
+            three_bettor (Union[Unset, Position]):
+            limper (Union[Unset, Position]):
+    """
 
-    hero: Position | Unset = UNSET
-    raiser: Position | Unset = UNSET
-    caller: Position | Unset = UNSET
-    three_bettor: Position | Unset = UNSET
-    limper: Position | Unset = UNSET
+    hero: Union[Unset, Position] = UNSET
+    raiser: Union[Unset, Position] = UNSET
+    caller: Union[Unset, Position] = UNSET
+    three_bettor: Union[Unset, Position] = UNSET
+    limper: Union[Unset, Position] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        hero: str | Unset = UNSET
+        hero: Union[Unset, str] = UNSET
         if not isinstance(self.hero, Unset):
             hero = self.hero.value
 
-
-        raiser: str | Unset = UNSET
+        raiser: Union[Unset, str] = UNSET
         if not isinstance(self.raiser, Unset):
             raiser = self.raiser.value
 
-
-        caller: str | Unset = UNSET
+        caller: Union[Unset, str] = UNSET
         if not isinstance(self.caller, Unset):
             caller = self.caller.value
 
-
-        three_bettor: str | Unset = UNSET
+        three_bettor: Union[Unset, str] = UNSET
         if not isinstance(self.three_bettor, Unset):
             three_bettor = self.three_bettor.value
 
-
-        limper: str | Unset = UNSET
+        limper: Union[Unset, str] = UNSET
         if not isinstance(self.limper, Unset):
             limper = self.limper.value
 
-
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if hero is not UNSET:
             field_dict["hero"] = hero
         if raiser is not UNSET:
@@ -89,60 +68,43 @@ class FlopPositions:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         _hero = d.pop("hero", UNSET)
-        hero: Position | Unset
-        if isinstance(_hero,  Unset):
+        hero: Union[Unset, Position]
+        if isinstance(_hero, Unset):
             hero = UNSET
         else:
             hero = Position(_hero)
 
-
-
-
         _raiser = d.pop("raiser", UNSET)
-        raiser: Position | Unset
-        if isinstance(_raiser,  Unset):
+        raiser: Union[Unset, Position]
+        if isinstance(_raiser, Unset):
             raiser = UNSET
         else:
             raiser = Position(_raiser)
 
-
-
-
         _caller = d.pop("caller", UNSET)
-        caller: Position | Unset
-        if isinstance(_caller,  Unset):
+        caller: Union[Unset, Position]
+        if isinstance(_caller, Unset):
             caller = UNSET
         else:
             caller = Position(_caller)
 
-
-
-
         _three_bettor = d.pop("three_bettor", UNSET)
-        three_bettor: Position | Unset
-        if isinstance(_three_bettor,  Unset):
+        three_bettor: Union[Unset, Position]
+        if isinstance(_three_bettor, Unset):
             three_bettor = UNSET
         else:
             three_bettor = Position(_three_bettor)
 
-
-
-
         _limper = d.pop("limper", UNSET)
-        limper: Position | Unset
-        if isinstance(_limper,  Unset):
+        limper: Union[Unset, Position]
+        if isinstance(_limper, Unset):
             limper = UNSET
         else:
             limper = Position(_limper)
-
-
-
 
         flop_positions = cls(
             hero=hero,
@@ -151,7 +113,6 @@ class FlopPositions:
             three_bettor=three_bettor,
             limper=limper,
         )
-
 
         flop_positions.additional_properties = d
         return flop_positions

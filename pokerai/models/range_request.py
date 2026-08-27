@@ -1,70 +1,56 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.range_request_hero_position import RangeRequestHeroPosition
 from ..types import UNSET, Unset
-from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.range_request_solver_results import RangeRequestSolverResults
-
-
-
+    from ..models.range_request_solver_results import RangeRequestSolverResults
 
 
 T = TypeVar("T", bound="RangeRequest")
 
 
-
 @_attrs_define
 class RangeRequest:
-    """ 
-        Attributes:
-            range_oop (str): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first); weight 0..1, default
-                1. Example: AA:1,KK,AKs:0.5,72o:0.1.
-            range_ip (str): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first); weight 0..1, default
-                1. Example: AA:1,KK,AKs:0.5,72o:0.1.
-            solver_results (RangeRequestSolverResults): the decision tree (you assemble it)
-            node_id (str):  Example: root/CHECK/BET 8.000000.
-            board (str | Unset): community cards as a no-separator string: 3=flop "2c2h2s", 4=turn, 5=river. Example:
-                2c2h2s.
-            normalize (bool | Unset):  Default: True.
-            explain (bool | Unset):  Default: False.
-            track_hands (list[str] | Unset):
-            bluff_discount_ratio (float | Unset):
-            hero_position (RangeRequestHeroPosition | Unset): optional card blocking: which player is Hero. Pair with
-                hero_hand.
-            hero_hand (str | Unset): optional card blocking: remove every combo containing one of Hero's cards from the
-                ranges (range-vs-hand analysis). Echoed back in the response. Applies to /v1/gto/range only, not the projected-
-                range wrappers. Example: AsKs.
-     """
+    """
+    Attributes:
+        range_oop (str): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first); weight 0..1, default
+            1. Example: AA:1,KK,AKs:0.5,72o:0.1.
+        range_ip (str): comma-separated hand:weight. class notation AA/AKs/AKo (high rank first); weight 0..1, default
+            1. Example: AA:1,KK,AKs:0.5,72o:0.1.
+        solver_results (RangeRequestSolverResults): the decision tree (you assemble it)
+        node_id (str):  Example: root/CHECK/BET 8.000000.
+        board (Union[Unset, str]): community cards as a no-separator string: 3=flop "2c2h2s", 4=turn, 5=river. Example:
+            2c2h2s.
+        normalize (Union[Unset, bool]):  Default: True.
+        explain (Union[Unset, bool]):  Default: False.
+        track_hands (Union[Unset, list[str]]):
+        bluff_discount_ratio (Union[Unset, float]):
+        hero_position (Union[Unset, RangeRequestHeroPosition]): optional card blocking: which player is Hero. Pair with
+            hero_hand.
+        hero_hand (Union[Unset, str]): optional card blocking: remove every combo containing one of Hero's cards from
+            the ranges (range-vs-hand analysis). Echoed back in the response. Applies to /v1/gto/range only, not the
+            projected-range wrappers. Example: AsKs.
+    """
 
     range_oop: str
     range_ip: str
-    solver_results: RangeRequestSolverResults
+    solver_results: "RangeRequestSolverResults"
     node_id: str
-    board: str | Unset = UNSET
-    normalize: bool | Unset = True
-    explain: bool | Unset = False
-    track_hands: list[str] | Unset = UNSET
-    bluff_discount_ratio: float | Unset = UNSET
-    hero_position: RangeRequestHeroPosition | Unset = UNSET
-    hero_hand: str | Unset = UNSET
+    board: Union[Unset, str] = UNSET
+    normalize: Union[Unset, bool] = True
+    explain: Union[Unset, bool] = False
+    track_hands: Union[Unset, list[str]] = UNSET
+    bluff_discount_ratio: Union[Unset, float] = UNSET
+    hero_position: Union[Unset, RangeRequestHeroPosition] = UNSET
+    hero_hand: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.range_request_solver_results import RangeRequestSolverResults
         range_oop = self.range_oop
 
         range_ip = self.range_ip
@@ -79,30 +65,28 @@ class RangeRequest:
 
         explain = self.explain
 
-        track_hands: list[str] | Unset = UNSET
+        track_hands: Union[Unset, list[str]] = UNSET
         if not isinstance(self.track_hands, Unset):
             track_hands = self.track_hands
 
-
-
         bluff_discount_ratio = self.bluff_discount_ratio
 
-        hero_position: str | Unset = UNSET
+        hero_position: Union[Unset, str] = UNSET
         if not isinstance(self.hero_position, Unset):
             hero_position = self.hero_position.value
 
-
         hero_hand = self.hero_hand
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-            "range_oop": range_oop,
-            "range_ip": range_ip,
-            "solver_results": solver_results,
-            "node_id": node_id,
-        })
+        field_dict.update(
+            {
+                "range_oop": range_oop,
+                "range_ip": range_ip,
+                "solver_results": solver_results,
+                "node_id": node_id,
+            }
+        )
         if board is not UNSET:
             field_dict["board"] = board
         if normalize is not UNSET:
@@ -120,20 +104,16 @@ class RangeRequest:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.range_request_solver_results import RangeRequestSolverResults
+
         d = dict(src_dict)
         range_oop = d.pop("range_oop")
 
         range_ip = d.pop("range_ip")
 
         solver_results = RangeRequestSolverResults.from_dict(d.pop("solver_results"))
-
-
-
 
         node_id = d.pop("node_id")
 
@@ -145,18 +125,14 @@ class RangeRequest:
 
         track_hands = cast(list[str], d.pop("track_hands", UNSET))
 
-
         bluff_discount_ratio = d.pop("bluff_discount_ratio", UNSET)
 
         _hero_position = d.pop("hero_position", UNSET)
-        hero_position: RangeRequestHeroPosition | Unset
-        if isinstance(_hero_position,  Unset):
+        hero_position: Union[Unset, RangeRequestHeroPosition]
+        if isinstance(_hero_position, Unset):
             hero_position = UNSET
         else:
             hero_position = RangeRequestHeroPosition(_hero_position)
-
-
-
 
         hero_hand = d.pop("hero_hand", UNSET)
 
@@ -173,7 +149,6 @@ class RangeRequest:
             hero_position=hero_position,
             hero_hand=hero_hand,
         )
-
 
         range_request.additional_properties = d
         return range_request

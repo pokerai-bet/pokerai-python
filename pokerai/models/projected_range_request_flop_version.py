@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ProjectedRangeRequestFlopVersion(str, Enum):
     VALUE_0 = "6max"
     VALUE_1 = "6max_RC_100bb_200NL"

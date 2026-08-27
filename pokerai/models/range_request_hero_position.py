@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class RangeRequestHeroPosition(str, Enum):
     IP = "ip"
     OOP = "oop"
