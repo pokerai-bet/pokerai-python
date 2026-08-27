@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class PreflopRequestPreflopActionsItemAction(str, Enum):
     BIG_BLIND = "big blind"
     CALL = "call"

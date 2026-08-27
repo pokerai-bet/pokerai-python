@@ -1,58 +1,40 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
 T = TypeVar("T", bound="PreflopRangeResponse200Quota")
-
 
 
 @_attrs_define
 class PreflopRangeResponse200Quota:
-    """ 
-        Attributes:
-            used (int | Unset):
-            limit (int | Unset):
-     """
+    """
+    Attributes:
+        used (Union[Unset, int]):
+        limit (Union[Unset, int]):
+    """
 
-    used: int | Unset = UNSET
-    limit: int | Unset = UNSET
+    used: Union[Unset, int] = UNSET
+    limit: Union[Unset, int] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         used = self.used
 
         limit = self.limit
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if used is not UNSET:
             field_dict["used"] = used
         if limit is not UNSET:
             field_dict["limit"] = limit
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -65,7 +47,6 @@ class PreflopRangeResponse200Quota:
             used=used,
             limit=limit,
         )
-
 
         preflop_range_response_200_quota.additional_properties = d
         return preflop_range_response_200_quota

@@ -1,64 +1,47 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 from ..models.solver_schedule_response_status import SolverScheduleResponseStatus
 from ..types import UNSET, Unset
-from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.quota import Quota
-
-
-
+    from ..models.quota import Quota
 
 
 T = TypeVar("T", bound="SolverScheduleResponse")
 
 
-
 @_attrs_define
 class SolverScheduleResponse:
-    """ 
-        Attributes:
-            status (SolverScheduleResponseStatus | Unset):
-            solve (str | Unset): handle for /tree and /node
-            solve_quota (Quota | Unset):
-     """
+    """
+    Attributes:
+        status (Union[Unset, SolverScheduleResponseStatus]):
+        solve (Union[Unset, str]): handle for /tree and /node
+        solve_quota (Union[Unset, Quota]):
+    """
 
-    status: SolverScheduleResponseStatus | Unset = UNSET
-    solve: str | Unset = UNSET
-    solve_quota: Quota | Unset = UNSET
+    status: Union[Unset, SolverScheduleResponseStatus] = UNSET
+    solve: Union[Unset, str] = UNSET
+    solve_quota: Union[Unset, "Quota"] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
-
-
-
-
     def to_dict(self) -> dict[str, Any]:
-        from ..models.quota import Quota
-        status: str | Unset = UNSET
+        status: Union[Unset, str] = UNSET
         if not isinstance(self.status, Unset):
             status = self.status.value
 
-
         solve = self.solve
 
-        solve_quota: dict[str, Any] | Unset = UNSET
+        solve_quota: Union[Unset, dict[str, Any]] = UNSET
         if not isinstance(self.solve_quota, Unset):
             solve_quota = self.solve_quota.to_dict()
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if status is not UNSET:
             field_dict["status"] = status
         if solve is not UNSET:
@@ -68,40 +51,32 @@ class SolverScheduleResponse:
 
         return field_dict
 
-
-
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.quota import Quota
+
         d = dict(src_dict)
         _status = d.pop("status", UNSET)
-        status: SolverScheduleResponseStatus | Unset
-        if isinstance(_status,  Unset):
+        status: Union[Unset, SolverScheduleResponseStatus]
+        if isinstance(_status, Unset):
             status = UNSET
         else:
             status = SolverScheduleResponseStatus(_status)
 
-
-
-
         solve = d.pop("solve", UNSET)
 
         _solve_quota = d.pop("solve_quota", UNSET)
-        solve_quota: Quota | Unset
-        if isinstance(_solve_quota,  Unset):
+        solve_quota: Union[Unset, Quota]
+        if isinstance(_solve_quota, Unset):
             solve_quota = UNSET
         else:
             solve_quota = Quota.from_dict(_solve_quota)
-
-
-
 
         solver_schedule_response = cls(
             status=status,
             solve=solve,
             solve_quota=solve_quota,
         )
-
 
         solver_schedule_response.additional_properties = d
         return solver_schedule_response

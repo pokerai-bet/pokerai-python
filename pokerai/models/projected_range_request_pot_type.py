@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ProjectedRangeRequestPotType(str, Enum):
     LIMP = "LIMP"
     SRP = "SRP"

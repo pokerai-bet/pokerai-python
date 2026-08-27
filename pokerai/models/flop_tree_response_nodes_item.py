@@ -1,41 +1,27 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
 T = TypeVar("T", bound="FlopTreeResponseNodesItem")
-
 
 
 @_attrs_define
 class FlopTreeResponseNodesItem:
-    """ 
-        Attributes:
-            node (str | Unset):  Example: root/CHECK/BET_8.
-            is_hero (bool | Unset):
-            token (str | Unset):
-     """
+    """
+    Attributes:
+        node (Union[Unset, str]):  Example: root/CHECK/BET_8.
+        is_hero (Union[Unset, bool]):
+        token (Union[Unset, str]):
+    """
 
-    node: str | Unset = UNSET
-    is_hero: bool | Unset = UNSET
-    token: str | Unset = UNSET
+    node: Union[Unset, str] = UNSET
+    is_hero: Union[Unset, bool] = UNSET
+    token: Union[Unset, str] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         node = self.node
@@ -44,11 +30,9 @@ class FlopTreeResponseNodesItem:
 
         token = self.token
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if node is not UNSET:
             field_dict["node"] = node
         if is_hero is not UNSET:
@@ -57,8 +41,6 @@ class FlopTreeResponseNodesItem:
             field_dict["token"] = token
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -74,7 +56,6 @@ class FlopTreeResponseNodesItem:
             is_hero=is_hero,
             token=token,
         )
-
 
         flop_tree_response_nodes_item.additional_properties = d
         return flop_tree_response_nodes_item

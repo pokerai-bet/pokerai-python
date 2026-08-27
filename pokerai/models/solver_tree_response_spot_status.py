@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SolverTreeResponseSpotStatus(str, Enum):
     AVAILABLE = "available"
     COMPUTING = "computing"

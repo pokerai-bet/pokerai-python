@@ -1,41 +1,27 @@
-from __future__ import annotations
-
 from collections.abc import Mapping
-from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+from typing import Any, TypeVar, Union
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-
-
-
-
-
-
 T = TypeVar("T", bound="PreflopRangeResponse200RangeAdditionalProperty")
-
 
 
 @_attrs_define
 class PreflopRangeResponse200RangeAdditionalProperty:
-    """ 
-        Attributes:
-            fold (float | Unset):
-            call (float | Unset):
-            raise_ (float | Unset):
-     """
+    """
+    Attributes:
+        fold (Union[Unset, float]):
+        call (Union[Unset, float]):
+        raise_ (Union[Unset, float]):
+    """
 
-    fold: float | Unset = UNSET
-    call: float | Unset = UNSET
-    raise_: float | Unset = UNSET
+    fold: Union[Unset, float] = UNSET
+    call: Union[Unset, float] = UNSET
+    raise_: Union[Unset, float] = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
-
-
-
-
 
     def to_dict(self) -> dict[str, Any]:
         fold = self.fold
@@ -44,11 +30,9 @@ class PreflopRangeResponse200RangeAdditionalProperty:
 
         raise_ = self.raise_
 
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
+        field_dict.update({})
         if fold is not UNSET:
             field_dict["fold"] = fold
         if call is not UNSET:
@@ -57,8 +41,6 @@ class PreflopRangeResponse200RangeAdditionalProperty:
             field_dict["raise"] = raise_
 
         return field_dict
-
-
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
@@ -74,7 +56,6 @@ class PreflopRangeResponse200RangeAdditionalProperty:
             call=call,
             raise_=raise_,
         )
-
 
         preflop_range_response_200_range_additional_property.additional_properties = d
         return preflop_range_response_200_range_additional_property

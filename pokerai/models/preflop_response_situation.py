@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class PreflopResponseSituation(str, Enum):
     LIMP = "Limp"
     RAISE = "Raise"

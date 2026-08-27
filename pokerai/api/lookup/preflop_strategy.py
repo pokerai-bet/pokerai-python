@@ -1,31 +1,21 @@
 from http import HTTPStatus
-from typing import Any, cast
-from urllib.parse import quote
+from typing import Any, Optional, Union
 
 import httpx
 
-from ...client import AuthenticatedClient, Client
-from ...types import Response, UNSET
 from ... import errors
-
+from ...client import AuthenticatedClient, Client
 from ...models.error import Error
 from ...models.preflop_request import PreflopRequest
 from ...models.preflop_response import PreflopResponse
-from typing import cast
-
+from ...types import Response
 
 
 def _get_kwargs(
     *,
     body: PreflopRequest,
-
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
-
-
-    
-
-    
 
     _kwargs: dict[str, Any] = {
         "method": "post",
@@ -40,33 +30,26 @@ def _get_kwargs(
     return _kwargs
 
 
-
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | PreflopResponse | None:
+def _parse_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Optional[Union[Error, PreflopResponse]]:
     if response.status_code == 200:
         response_200 = PreflopResponse.from_dict(response.json())
-
-
 
         return response_200
 
     if response.status_code == 400:
         response_400 = Error.from_dict(response.json())
 
-
-
         return response_400
 
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
 
-
-
         return response_401
 
     if response.status_code == 429:
         response_429 = Error.from_dict(response.json())
-
-
 
         return response_429
 
@@ -76,7 +59,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | PreflopResponse]:
+def _build_response(
+    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+) -> Response[Union[Error, PreflopResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -87,11 +72,10 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: PreflopRequest,
-
-) -> Response[Error | PreflopResponse]:
-    """ Preflop strategy (presolved)
+) -> Response[Union[Error, PreflopResponse]]:
+    """Preflop strategy (presolved)
 
      Charges 1 presolved quota. The situation (RFI/Limp/Raise/3-Bet/4-Bet/5-Bet) is derived from the
     actions.
@@ -104,13 +88,11 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | PreflopResponse]
-     """
-
+        Response[Union[Error, PreflopResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
     response = client.get_httpx_client().request(
@@ -119,13 +101,13 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
+
 def sync(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: PreflopRequest,
-
-) -> Error | PreflopResponse | None:
-    """ Preflop strategy (presolved)
+) -> Optional[Union[Error, PreflopResponse]]:
+    """Preflop strategy (presolved)
 
      Charges 1 presolved quota. The situation (RFI/Limp/Raise/3-Bet/4-Bet/5-Bet) is derived from the
     actions.
@@ -138,23 +120,21 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | PreflopResponse
-     """
-
+        Union[Error, PreflopResponse]
+    """
 
     return sync_detailed(
         client=client,
-body=body,
-
+        body=body,
     ).parsed
+
 
 async def asyncio_detailed(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: PreflopRequest,
-
-) -> Response[Error | PreflopResponse]:
-    """ Preflop strategy (presolved)
+) -> Response[Union[Error, PreflopResponse]]:
+    """Preflop strategy (presolved)
 
      Charges 1 presolved quota. The situation (RFI/Limp/Raise/3-Bet/4-Bet/5-Bet) is derived from the
     actions.
@@ -167,28 +147,24 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | PreflopResponse]
-     """
-
+        Response[Union[Error, PreflopResponse]]
+    """
 
     kwargs = _get_kwargs(
         body=body,
-
     )
 
-    response = await client.get_async_httpx_client().request(
-        **kwargs
-    )
+    response = await client.get_async_httpx_client().request(**kwargs)
 
     return _build_response(client=client, response=response)
 
+
 async def asyncio(
     *,
-    client: AuthenticatedClient | Client,
+    client: Union[AuthenticatedClient, Client],
     body: PreflopRequest,
-
-) -> Error | PreflopResponse | None:
-    """ Preflop strategy (presolved)
+) -> Optional[Union[Error, PreflopResponse]]:
+    """Preflop strategy (presolved)
 
      Charges 1 presolved quota. The situation (RFI/Limp/Raise/3-Bet/4-Bet/5-Bet) is derived from the
     actions.
@@ -201,12 +177,12 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | PreflopResponse
-     """
+        Union[Error, PreflopResponse]
+    """
 
-
-    return (await asyncio_detailed(
-        client=client,
-body=body,
-
-    )).parsed
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+        )
+    ).parsed
