@@ -13,8 +13,9 @@ include = ["pokerai/py.typed"]
 
 [tool.poetry.urls]
 Homepage = "https://pokerai.bet"
-Documentation = "https://pokerai.bet/docs.en"
+Documentation = "https://pokerai.bet/docs"
 "API Reference" = "https://pokerai.bet/reference"
+Source = "https://github.com/pokerai-bet/pokerai-python"
 
 [tool.poetry.dependencies]
 python = "^3.11"

@@ -2,9 +2,9 @@
 
 Official Python client for the **[Pokerai API](https://pokerai.bet)** — solver-grade GTO strategy
 for 6-max No-Limit Hold'em, over HTTP. Typed, `httpx`-based, **auto-generated from the
-[OpenAPI spec](https://pokerai.bet/openapi.yaml)** so it always tracks the live API.
+[OpenAPI spec](https://pokerai.bet/openapi.en.json)** so it always tracks the live API.
 
-Get a free API key at **https://pokerai.bet/login**. Docs: https://pokerai.bet/docs.en
+Get a free API key at **https://pokerai.bet/login**. Docs: https://pokerai.bet/docs
 
 ```bash
 pip install pokerai-bet   # distribution name; import as `pokerai`
@@ -61,5 +61,19 @@ Request/response models live in `pokerai.models`. Auth is your API key via
 This client is fully typed but verbose (it's generated). If you'd rather drive the API from an LLM
 agent, see **[@pokerai/mcp](https://www.npmjs.com/package/@pokerai/mcp)** — the same API as MCP tools.
 Or call the HTTP endpoints directly; see the [reference](https://pokerai.bet/reference).
+
+## About Pokerai API
+
+Pokerai API provides solver-grade GTO strategy and poker computation APIs for
+training products, review tools, coaches, researchers, and AI agents.
+
+Free tier: 1,000 presolved lookups + 25 real-time solves per month.
+
+Real-time assistance (RTA) at real-money tables is prohibited.
+
+- Website: https://pokerai.bet/
+- Docs: https://pokerai.bet/docs
+- API reference: https://pokerai.bet/reference
+- OpenAPI: https://pokerai.bet/openapi.en.json
 
 MIT licensed.
